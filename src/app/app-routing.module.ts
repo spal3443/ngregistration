@@ -5,8 +5,8 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { SupplierComponent } from './supplier/supplier.component';
 import { AmbulanceComponent } from './ambulance/ambulance.component';
 const routes: Routes = [
-  {path:'home',component:HomepageComponent},
-  {path:'',component:SupplierComponent},
+  {path:'',component:HomepageComponent},
+  {path:'suplier',component:SupplierComponent},
   {path:'ambulance',component:AmbulanceComponent},
   {path:'login',component:LoginComponent},
   //{path:'',component:HomepageComponent},

@@ -1,6 +1,6 @@
-<p>Supplier Form</p>
+<p>Hospital Form</p>
 <div class="container card">
-	<form [formGroup]="supplierform" (submit)="onSubmit()">
+	<form [formGroup]="hospitalForm" (submit)="onSubmit()">
 		<div class="row">
 			<div class="col-md-4 offset-md-4">
 				<label class="sr-only" for="name">Name</label> <input type="text"
@@ -40,6 +40,20 @@
 			</div>
 		</div>
 		<div class="row">
+			<div class="col-md-4">
+		        <label class="sr-only" for="total_bed">Total Number beds</label>
+		        <input type="number" class="form-control" id="total_bed" formControlName="total_bed" (ngModelChange)="updateAvailableBeds()" placeholder="Enter total_bed"  name="total_bed">
+		      </div>
+					<div class="col-md-4">
+		        <label class="sr-only" for="occupied_bed">Occupied beds</label>
+		        <input type="number" class="form-control" id="occupied_bed" (ngModelChange)="updateAvailableBeds()" formControlName="occupied_bed" placeholder="Enter occupied_bed"  name="occupied_bed">
+		      </div>
+				<div class="col-md-4">
+			        <label class="sr-only" for="available_bed">Available Beds</label>
+			        <input type="number" class="form-control" id="available_bed" readonly [value]="available_bed" name="available_bed">
+		      </div>
+      </div>
+		<div class="row">
 			<div class="col-md-2">
 				<button type="submit" class="btn btn-info">Add</button>
 			</div>
@@ -61,16 +75,23 @@
 				<th>Address</th>
 				<th>Contact Name</th>
 				<th>Contact Phone</th>
+				<th>Total Bed</th>
+                <th>Occupied Bed</th>
+                <th>Available Bed</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let s of supplier">
-				<td>{{s.id}}</td>
-				<td>{{s.name}}</td>
-				<td>{{s.address}}</td>
-				<td>{{s.contact_name}}</td>
-				<td>{{s.contact_phone}}</td>
+			<tr *ngFor="let h of hospitals">
+				 <td>{{h.id}} </td>
+                <td>{{h.name}}</td>
+                <td>{{h.address}}</td>
+                <td>{{h.contact_name}} </td>
+                <td>{{h.contact_phone}}</td>
+                <td>{{h.total_bed}}</td>
+                <td>{{h.occupied_bed}}</td>
+                <td>{{h.available_bed}}</td>
 			</tr>
+			<tr class="alert alert-danger" role="alert" *ngIf="hospitals.length==0">No Records</tr>
 		</tbody>
 	</table>
 </div>

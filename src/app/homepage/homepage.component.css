@@ -1,3 +1,8 @@
 .sr-only{
     color:blue
 }
+
+.tab-content{
+	height:80vh;
+	width: 50vw;
+}
