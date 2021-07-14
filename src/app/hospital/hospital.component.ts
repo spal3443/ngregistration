@@ -88,7 +88,7 @@ export class HospitalComponent implements OnInit {
 
 
     updateAvailableBeds() {
-        this.hospitalForm.available_bed = this.hospitalForm.total_bed - this.hospitalForm.occupied_bed;
+        this.hospitalForm.available_bed = this.hospitalForm.total_bed - this.hospitalForm.occupied_bed+1;
     }
 }
 
