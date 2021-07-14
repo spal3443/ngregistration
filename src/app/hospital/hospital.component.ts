@@ -1,3 +1,4 @@
+import { formatNumber } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
 
@@ -23,9 +24,9 @@ export class HospitalComponent implements OnInit {
             address: '',
             contact_name: '',
             contact_phone: '',
-            total_bed: 0,
-            occupied_bed: 0,
-            available_bed: 0
+            total_bed: formatNumber,
+            occupied_bed: formatNumber,
+            available_bed: formatNumber
         } ;
         this.showTable = false;
     }
@@ -88,7 +89,7 @@ export class HospitalComponent implements OnInit {
 
 
     updateAvailableBeds() {
-        this.hospitalForm.available_bed = this.hospitalForm.total_bed - this.hospitalForm.occupied_bed+1;
+        this.hospitalForm.available_bed = this.hospitalForm.total_bed - this.hospitalForm.occupied_bed;
     }
 }
 
