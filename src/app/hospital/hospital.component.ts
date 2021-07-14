@@ -1,4 +1,3 @@
-import { formatNumber } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
 
@@ -24,9 +23,9 @@ export class HospitalComponent implements OnInit {
             address: '',
             contact_name: '',
             contact_phone: '',
-            total_bed: formatNumber,
-            occupied_bed: formatNumber,
-            available_bed: formatNumber
+            total_bed: 0,
+            occupied_bed: 0,
+            available_bed: 0
         } ;
         this.showTable = false;
     }
