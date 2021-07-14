@@ -42,7 +42,7 @@ export class HospitalComponent implements OnInit {
         this.hospitalForm.reset();
     }
 
-/*    display() {
+ /*  display() {
         this.apiService.getHospitals().subscribe(( data ) => {
             console.log( data );
             if ( !data ) {

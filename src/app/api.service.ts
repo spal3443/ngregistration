@@ -17,7 +17,7 @@ export class ApiService {
             return this.httpClient.get( httpurl );
         }
         catch{
-            throw new Error( 'Error in update hospital method.' );
+            throw new Error( 'Error in get hospital method.' );
         }
     }
 
@@ -40,7 +40,7 @@ export class ApiService {
             return this.httpClient.post( httpurl, params );
         }
         catch{
-            throw new Error( 'Error in update hospital method.' );
+            throw new Error( 'Error in find hospital method.' );
         }
 
     }
