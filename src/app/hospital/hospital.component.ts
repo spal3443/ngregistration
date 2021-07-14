@@ -1,23 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../api.service';
-
-@Component( {
+import {
+    Component, OnInit
+}
+from '@angular/core';
+import {
+    ApiService
+}
+from '../api.service';@
+Component({
     selector: 'app-hospital',
     templateUrl: './hospital.component.html',
     styleUrls: ['./hospital.component.css']
-} )
+})
 export class HospitalComponent implements OnInit {
-
     public hospitals: any;
-    public hospitalForm: any;
+    public hospitalModel: any;
     public errorMsg: string;
     public info: string;
     public showTable: boolean;
-    constructor(private apiService: ApiService ) {
+    constructor(private apiService: ApiService) {
         this.hospitals = [];
         this.errorMsg = "";
         this.info = "";
-        this.hospitalForm = {
+        this.hospitalModel = {
             id: '',
             name: '',
             address: '',
@@ -26,70 +30,74 @@ export class HospitalComponent implements OnInit {
             total_bed: 0,
             occupied_bed: 0,
             available_bed: 0
-        } ;
+        };
         this.showTable = false;
     }
-
     ngOnInit() {
         this.hospitals = [];
         this.showTable = false;
     }
-
     onSubmit() {
-        //form validation
-        this.hospitals.push(this.hospitalForm.value );
-        this.update(this.hospitals )
-        this.hospitalForm.reset();
-    }
-
- /*  display() {
-        this.apiService.getHospitals().subscribe(( data ) => {
-            console.log( data );
-            if ( !data ) {
-                this.errorMsg = "Something went Wrong!!!";
-                setTimeout(() => { this.errorMsg = ""; }, 5000 )
-            } else {
-
-                this.hospitals = data;
-            }
-        } ); 
-    }*/
+            //form validation
+            this.hospitals.push(this.hospitalModel.value);
+            this.update(this.hospitals)
+        }
+        /*  display() {
     
+                this.apiService.getHospitals().subscribe(( data ) => {
+    
+                    console.log( data );
+    
+                    if ( !data ) {
+    
+                        this.errorMsg = "Something went Wrong!!!";
+    
+                        setTimeout(() => { this.errorMsg = ""; }, 5000 )
+    
+                    } else {
+    
+         
+    
+                        this.hospitals = data;
+    
+                    }
+    
+                } );
+    
+            }*/
     find() {
-        this.apiService.findHospitals( this.hospitalForm.value ).subscribe(( data ) => {
-            console.log( data );
-            if ( data.length != 0 ) {
+        this.apiService.findHospitals(this.hospitalModel.value).subscribe((data) => {
+            console.log(data);
+            if(data.length != 0) {
                 this.errorMsg = "Something went Wrong!!!";
-                setTimeout(() => { this.errorMsg = ""; }, 5000 )
+                setTimeout(() => {
+                    this.errorMsg = "";
+                }, 5000)
             } else {
                 this.showTable = true;
                 this.hospitals = data;
             }
-
-        } );
-
+        });
     }
-
-    update( params: any ) {
-        this.apiService.updateHospitals( params ).subscribe(( data ) => {
-            console.log( data );
+    update(params: any) {
+        this.apiService.updateHospitals(params).subscribe((data) => {
+            console.log(data);
             //     show data save successfull message
-            if ( !data ) {
+            if(!data) {
                 this.errorMsg = "Something went Wrong!!!";
-                setTimeout(() => { this.errorMsg = ""; }, 5000 )
+                setTimeout(() => {
+                    this.errorMsg = "";
+                }, 5000)
             } else {
                 this.hospitals = data;
                 this.info = "Hospital Data Hasbeen Saved Successfully";
-                setTimeout(() => { this.info = ""; }, 60000 );
+                setTimeout(() => {
+                    this.info = "";
+                }, 60000);
             }
-
-        } );
+        });
     }
-
-
     updateAvailableBeds() {
-        this.hospitalForm.available_bed = this.hospitalForm.total_bed - this.hospitalForm.occupied_bed;
+        this.hospitalModel.available_bed = this.hospitalModel.total_bed - this.hospitalModel.occupied_bed;
     }
 }
-
-

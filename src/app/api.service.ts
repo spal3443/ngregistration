@@ -17,7 +17,7 @@ export class ApiService {
             return this.httpClient.get( httpurl );
         }
         catch{
-            throw new Error( 'Error in get hospital method.' );
+            throw new Error( 'Error in update hospital method.' );
         }
     }
 
@@ -35,12 +35,12 @@ export class ApiService {
     public findHospitals( params: any ): Observable<any> {
         try {
 
-            var httpurl = "http://localhost:7575/CovidCentralApp/findHospitals"
+            var httpurl = "http://localhost:8081/CovidCentralApp/findHospitals"
             //var HttpParams={};
             return this.httpClient.post( httpurl, params );
         }
         catch{
-            throw new Error( 'Error in find hospital method.' );
+            throw new Error( 'Error in update hospital method.' );
         }
 
     }

@@ -5,4 +5,9 @@
 .tab-content{
 	height:80vh;
 	width: 70vw;
+	margin: 3%;
+}
+
+.d-flex{
+	margin: 1%;
 }
