@@ -1,111 +1,97 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { ApiService } from '../api.service';
 
-@Component({
-  selector: 'app-supplier',
-  templateUrl: './supplier.component.html',
-  styleUrls: ['./supplier.component.css']
-})
+@Component( {
+    selector: 'app-supplier',
+    templateUrl: './supplier.component.html',
+    styleUrls: ['./supplier.component.css']
+} )
 export class SupplierComponent implements OnInit {
 
-  public supplier: any;
-  public supplierform: any;
-  public errorMsg: string;
-  public info: string;
-  constructor(private formBuilder: FormBuilder,private apiService: ApiService) {
-    this.supplier=[];
-    this.errorMsg = "";
-    this.info="";
-    this.supplierform=this.formBuilder.group({
-      id:'',
-      name: '',
-      address: '',
-      contact_name:'',
-      contact_phone:'',
-      pid:''
-    });
-     }
-     
-  ngOnInit(){
-     
+    public suppliers: any;
+    public supplierModel: any;
+    public errorMsg: string;
+    public info: string;
+    public showTable: boolean;
+    public products: any;
+    constructor(private apiService: ApiService ) {
+        this.suppliers = [];
+        this.errorMsg = "";
+        this.info = "";
+        this.supplierModel = {
+            id: '',
+            name: '',
+            address: '',
+            contact_name: '',
+            contact_phone: '',
+            pid: ""
+        };
+        this.showTable=false;
+        this.products=[];
+    }
+
+    ngOnInit() {
+        this.suppliers = [];
+        this.showTable=false;
+        this.getProductList();
     }
 
     onSubmit() {
-      // Process checkout data here
-      console.warn('Your order has been submitted', this.supplierform.value);
-      this.supplier.push(this.supplierform.value);
-      this.update(this.supplier)
-      this.supplierform.reset();
-  
-  
-      // this.insert();
-     
-     //this.displayambulance();
-  
-    }    
-
-
-    displaysupplier(){
-      this.apiService.getSupplier().subscribe((data)=>{
-        console.log(data);
-    if(!data){
-      this.errorMsg = "Something went Wrong!!!";
-      setTimeout(()=>{this.errorMsg = "";}, 5000)
-    }else{
-      
-      this.supplier = data;
-    }
-      });
+        // Process checkout data here & form validation
+        console.log()
+        this.suppliers.push( this.supplierModel );
+        this.update( this.suppliers )
     }
 
-   // insert(){
-      //Rest api call
-      //Spring mvc - restfull service 
-      //controler -rest api usr - return web service
-      //service class - validation , business logic - retunr ouput
-      //repository/transaction class - database handling return result
-   // }
+
+    getSupplier() {
+        this.apiService.getSupplier().subscribe(( data ) => {
+            console.log( data );
+            if ( !data ) {
+                this.errorMsg = "Something went Wrong!!!";
+                setTimeout(() => { this.errorMsg = ""; }, 5000 )
+            } else {
+                this.suppliers = data;
+            }
+        } );
+    }
 
 
-   find(){
-    this.supplier=[{id:1,name:"sandip",address:"kolaberia"}]
-   this.supplier=this.supplier.filter((x: { name: any; })=>{
-    // console.log(this.hospitalform.value.name)
-     return  this.supplierform.value.name===x.name;
-  
-   })
-  
-  // this.suppliers=[{id:1,address:"kolaberia"}]
-   this.supplier=this.supplier.filter((x: { address: any; })=>{
-    // console.log(this.hospitalform.value.name)
-     return  this.supplierform.value.address===x.address;
-  
-   })
-  }
+    find() {
 
-  update(params:any){
-    this.apiService.updateSupplier(params).subscribe((data)=>{
-      console.log(data);
-  //     show data save sucessfull message
-  if(!data){
-    this.errorMsg = "Something went Wrong!!!";
-    setTimeout(()=>{this.errorMsg = "";}, 5000)
-  }else{
-    this.supplier = data;
-    this.info="Supplier Data Hasbeen Saved Successfully";
-    setTimeout(()=>{this.info = "";}, 60000);
-  }
-      
-    });
+    }
 
+    update( params: any ) {
+        this.apiService.updateSupplier( params ).subscribe(( data ) => {
+            console.log( data );
+            //     show data save successful message
+            if ( !data ) {
+                this.errorMsg = "Something went Wrong!!!";
+                setTimeout(() => { this.errorMsg = ""; }, 5000 )
+            } else {
+                this.suppliers= data;
+                this.info = "Supplier Data Hasbeen Saved Successfully";
+                setTimeout(() => { this.info = ""; }, 60000 );
+            }
 
-
-  }
+        } );
+    }
+    
+    getProductList(){
+        this.apiService.getProducts().subscribe(( data ) => {
+            console.log( data );
+            if ( !data ) {
+                this.errorMsg = "Something went Wrong!!!";
+                setTimeout(() => { this.errorMsg = ""; }, 5000 )
+            } else {
+                this.products = data;
+            }
+        } );
+    }
 
 }
 
-    
+
 
 
 

@@ -1,129 +1,95 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { ApiService } from '../api.service';
 
-@Component({
-  selector: 'app-hospital',
-  templateUrl: './hospital.component.html',
-  styleUrls: ['./hospital.component.css']
-})
+@Component( {
+    selector: 'app-hospital',
+    templateUrl: './hospital.component.html',
+    styleUrls: ['./hospital.component.css']
+} )
 export class HospitalComponent implements OnInit {
- 
-  public hospitals: any;
-  public hospitalForm: any;
-	public errorMsg: string;
-	public info: string;
-    public available_bed: string;
-  constructor(private formBuilder: FormBuilder,private apiService: ApiService ) {
-    this.hospitals=[];
-	this.errorMsg = "";
-	this.info="";
-    this.hospitalForm=this.formBuilder.group({
-      id:'',
-      name: '',
-      address: '',
-      contact_name:'',
-      contact_phone:'',
-      total_bed:'',
-      occupied_bed:'',
-      available_bed:''
-    });
-    this.available_bed = "";
-     }
-     
-  	ngOnInit(){
-     this.display();
-     
+
+    public hospitals: any;
+    public hospitalForm: any;
+    public errorMsg: string;
+    public info: string;
+    public showTable: boolean;
+    constructor(private apiService: ApiService ) {
+        this.hospitals = [];
+        this.errorMsg = "";
+        this.info = "";
+        this.hospitalForm = {
+            id: '',
+            name: '',
+            address: '',
+            contact_name: '',
+            contact_phone: '',
+            total_bed: 0,
+            occupied_bed: 0,
+            available_bed: 0
+        } ;
+        this.showTable = false;
+    }
+
+    ngOnInit() {
+        this.hospitals = [];
+        this.showTable = false;
     }
 
     onSubmit() {
-      // Process checkout data here
-      console.warn('Your order has been submitted', this.hospitalForm.value);
-      // this.hospitalForm.value = {
-      //   ...this.hospitalForm.value,
-      //   id : this.hospitals.length
-      // }
-
-      
-     
-      this.hospitals.push(this.hospitalForm.value);
-      this.update(this.hospitals)
-      this.hospitalForm.reset();
-      //this.display();
-    }    
-
-    display(){
-      this.apiService.getHospitals().subscribe((data)=>{
-        console.log(data);
-		if(!data){
-			this.errorMsg = "Something went Wrong!!!";
-			setTimeout(()=>{this.errorMsg = "";}, 5000)
-		}else{
-			
-			this.hospitals = data;
-		}
-      }); //Rest api call
-      //Spring mvc - restfull service 
-      //controler -rest api usr - return web service
-      //service class - validation , business logic - retunr ouput
-      //repository/transaction class - database handling return result
-    }
-    find(){
-     /* this.hospitals=[{id:1,name:"sandip",address:"kolaberia"}]
-     this.hospitals=this.hospitals.filter((x: { name: any; })=>{
-      // console.log(this.hospitalForm.value.name)
-       return  this.hospitalForm.value.name===x.name;
-
-     })
-
-    // this.hospitals=[{id:1,address:"kolaberia"}]
-     this.hospitals=this.hospitals.filter((x: { address: any; })=>{
-      // console.log(this.hospitalForm.value.name)
-       return  this.hospitalForm.value.address===x.address;
-
-     })*/
-
-    this.apiService.findHospitals(this.hospitalForm.value).subscribe((data)=>{
-	console.log(data);
-		if(data.length!=0){
-			this.errorMsg = "Something went Wrong!!!";
-			setTimeout(()=>{this.errorMsg = "";}, 5000)
-		}else{
-			
-			this.hospitals = data;
-		}
-        
-//     show data save sucessfull message
-      });
-
+        //form validation
+        this.hospitals.push(this.hospitalForm.value );
+        this.update(this.hospitals )
+        this.hospitalForm.reset();
     }
 
-    update(params:any){
-      this.apiService.updateHospitals(params).subscribe((data)=>{
-        console.log(data);
-//     show data save sucessfull message
-		if(!data){
-			this.errorMsg = "Something went Wrong!!!";
-			setTimeout(()=>{this.errorMsg = "";}, 5000)
-		}else{
-			this.hospitals = data;
-      this.info="Hospital Data Hasbeen Saved Successfully";
-			setTimeout(()=>{this.info = "";}, 60000);
-		}
-        
-      });
-    }
+/*    display() {
+        this.apiService.getHospitals().subscribe(( data ) => {
+            console.log( data );
+            if ( !data ) {
+                this.errorMsg = "Something went Wrong!!!";
+                setTimeout(() => { this.errorMsg = ""; }, 5000 )
+            } else {
 
-
-    updateAvailableBeds(){
-        console.log(this.hospitalForm);
-        this.available_bed = (this.hospitalForm.value.total_bed - this.hospitalForm.value.occupied_bed) + "";
-        console.log(this.available_bed);
-    }
-
-   
+                this.hospitals = data;
+            }
+        } ); 
+    }*/
     
+    find() {
+        this.apiService.findHospitals( this.hospitalForm.value ).subscribe(( data ) => {
+            console.log( data );
+            if ( data.length != 0 ) {
+                this.errorMsg = "Something went Wrong!!!";
+                setTimeout(() => { this.errorMsg = ""; }, 5000 )
+            } else {
+                this.showTable = true;
+                this.hospitals = data;
+            }
 
+        } );
+
+    }
+
+    update( params: any ) {
+        this.apiService.updateHospitals( params ).subscribe(( data ) => {
+            console.log( data );
+            //     show data save successfull message
+            if ( !data ) {
+                this.errorMsg = "Something went Wrong!!!";
+                setTimeout(() => { this.errorMsg = ""; }, 5000 )
+            } else {
+                this.hospitals = data;
+                this.info = "Hospital Data Hasbeen Saved Successfully";
+                setTimeout(() => { this.info = ""; }, 60000 );
+            }
+
+        } );
+    }
+
+
+    updateAvailableBeds() {
+        this.hospitalForm.available_bed = this.hospitalForm.total_bed - this.hospitalForm.occupied_bed;
+    }
 }
 
 

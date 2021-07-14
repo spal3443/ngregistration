@@ -1,10 +1,10 @@
 <p>Hospital Form</p>
 <div class="container card">
-	<form [formGroup]="hospitalForm" (submit)="onSubmit()">
+	<form (submit)="onSubmit()">
 		<div class="row">
 			<div class="col-md-4 offset-md-4">
 				<label class="sr-only" for="name">Name</label> <input type="text"
-					class="form-control" id="name" formControlName="name"
+					class="form-control" id="name" [(ngModel)]="hospitalForm.name"
 					placeholder="Enter name" name="name">
 			</div>
 		</div>
@@ -13,13 +13,13 @@
 			<div class="col-md-6">
 				<label class="sr-only" for="contactName">Contact Name</label> <input
 					type="text" class="form-control" id="contact_name"
-					formControlName="contact_name" placeholder="Enter contact name"
+					[(ngModel)]="hospitalForm.contact_name" placeholder="Enter contact name"
 					name="contact_name">
 			</div>
 			<div class="col-md-6">
 				<label class="sr-only" for="contactPhone">Contact Phone</label> <input
 					type="number" class="form-control" id="contact_phone"
-					formControlName="contact_phone" placeholder="Enter contact phone"
+					[(ngModel)]="hospitalForm.contact_phone" placeholder="Enter contact phone"
 					name="contact_phone">
 			</div>
 		</div>
@@ -27,33 +27,25 @@
 			<div class="col-md-8">
 				<label class="sr-only" for="address">Address</label> <input
 					type="text" class="form-control" id="address"
-					formControlName="address" placeholder="Enter address"
+					[(ngModel)]="hospitalForm.address" placeholder="Enter address"
 					name="address">
-			</div>
-			<div class="col-md-2">
-				<label for="product">Product</label> <select
-					class="form-control" name="product" id="product"
-					formControlName="pid">
-					<option value="">Select Product</option>
-					<option value="1">Oxygen</option>
-				</select>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-4">
-		        <label class="sr-only" for="total_bed">Total Number beds</label>
-		        <input type="number" class="form-control" id="total_bed" formControlName="total_bed" (ngModelChange)="updateAvailableBeds()" placeholder="Enter total_bed"  name="total_bed">
+		        <label class="sr-only" for="total_bed">Total beds</label>
+		        <input type="number" class="form-control" id="total_bed" [(ngModel)]="hospitalForm.total_bed" (ngModelChange)="updateAvailableBeds()" placeholder="Total number of beds?"  name="total_bed">
 		      </div>
 					<div class="col-md-4">
 		        <label class="sr-only" for="occupied_bed">Occupied beds</label>
-		        <input type="number" class="form-control" id="occupied_bed" (ngModelChange)="updateAvailableBeds()" formControlName="occupied_bed" placeholder="Enter occupied_bed"  name="occupied_bed">
+		        <input type="number" class="form-control" id="occupied_bed" (ngModelChange)="updateAvailableBeds()" [(ngModel)]="hospitalForm.occupied_bed" placeholder="How many beds are occupied?"  name="occupied_bed">
 		      </div>
 				<div class="col-md-4">
-			        <label class="sr-only" for="available_bed">Available Beds</label>
-			        <input type="number" class="form-control" id="available_bed" readonly [value]="available_bed" name="available_bed">
+			        <label class="sr-only" for="available_bed">Available beds</label>
+			        <input type="number" class="form-control" id="available_bed" readonly [value]="hospitalForm.available_bed" name="available_bed">
 		      </div>
       </div>
-		<div class="row">
+		<div class="row p-2">
 			<div class="col-md-2">
 				<button type="submit" class="btn btn-info">Add</button>
 			</div>
@@ -62,12 +54,14 @@
 			</div>
 		</div>
 	</form>
+	<div class="m-5">
+	<div class="alert alert-danger" role="alert" *ngIf="errorMsg">{{errorMsg}}</div>
+	<div class="alert alert-success" role="alert" *ngIf="info">{{info}}</div>
+</div>
 </div>
 
 <div class="container">
-	<div class="alert alert-danger" role="alert" *ngIf="errorMsg">{{errorMsg}}</div>
-	<div class="alert alert-success" role="alert" *ngIf="info">{{info}}</div>
-	<table class="table table-hover table-striped">
+	<table class="table table-hover table-striped" *ngIf="showTable">
 		<thead class="thead-dark">
 			<tr>
 				<th>#</th>
@@ -91,7 +85,9 @@
                 <td>{{h.occupied_bed}}</td>
                 <td>{{h.available_bed}}</td>
 			</tr>
-			<tr class="alert alert-danger" role="alert" *ngIf="hospitals.length==0">No Records</tr>
+			<tr class="alert alert-danger" role="alert" *ngIf="hospitals.length==0">
+				<td colspan="8" class="text-center">No Records</td>
+			</tr>
 		</tbody>
 	</table>
 </div>

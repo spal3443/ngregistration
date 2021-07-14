@@ -1,11 +1,15 @@
 <p>Supplier Form</p>
 <div class="container card">
-	<form [formGroup]="supplierform" (submit)="onSubmit()">
+	<form #supplierForm="ngForm" name="form" (ngSubmit)="supplierForm.form.valid && onSubmit()" novalidate>
 		<div class="row">
 			<div class="col-md-4 offset-md-4">
 				<label class="sr-only" for="name">Name</label> <input type="text"
-					class="form-control" id="name" formControlName="name"
-					placeholder="Enter name" name="name">
+					class="form-control" id="name" [(ngModel)]="supplierModel.name"
+					placeholder="Enter name" #name="ngModel" name="name" 
+					[ngClass]="{ 'is-invalid': supplierForm.submitted && name.invalid }" required>
+					 <div *ngIf="true" class="invalid-feedback">
+                        <div *ngIf="true">Name is required</div>
+                    </div>
 			</div>
 		</div>
 		<hr class="mt-4">
@@ -13,47 +17,66 @@
 			<div class="col-md-6">
 				<label class="sr-only" for="contactName">Contact Name</label> <input
 					type="text" class="form-control" id="contact_name"
-					formControlName="contact_name" placeholder="Enter contact name"
-					name="contact_name">
+					[(ngModel)]="supplierModel.contact_name" name="contact_name"
+					placeholder="Enter contact name" #contact_name="ngModel" 
+					[ngClass]="{ 'is-invalid': supplierForm.submitted && contact_name.invalid }" required>
+					<div *ngIf="supplierForm.submitted && contact_name.invalid" class="invalid-feedback">
+                        <div *ngIf="contact_name.errors?.required">Contact name is required</div>
+                    </div>
 			</div>
 			<div class="col-md-6">
 				<label class="sr-only" for="contactPhone">Contact Phone</label> <input
 					type="number" class="form-control" id="contact_phone"
-					formControlName="contact_phone" placeholder="Enter contact phone"
-					name="contact_phone">
+					[(ngModel)]="supplierModel.contact_phone" name="contact_phone"
+					placeholder="Enter contact phone" #contact_phone="ngModel" 
+					[ngClass]="{ 'is-invalid': supplierForm.submitted && contact_phone.invalid }" required>
+					<div *ngIf="supplierForm.submitted && contact_phone.invalid" class="invalid-feedback">
+                        <div *ngIf="contact_phone.errors?.required">Contact phone is required</div>
+                    </div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-8">
 				<label class="sr-only" for="address">Address</label> <input
-					type="text" class="form-control" id="address"
-					formControlName="address" placeholder="Enter address"
-					name="address">
+					type="text" class="form-control" id="address" name="address"
+					[(ngModel)]="supplierModel.address" placeholder="Enter address"
+					#address="ngModel" [ngClass]="{ 'is-invalid': supplierForm.submitted && address.invalid }" 
+					required>
+					<div *ngIf="supplierForm.submitted && address.invalid" class="invalid-feedback">
+                        <div *ngIf="address.errors?.required">Address is required</div>
+                    </div>
 			</div>
-			<div class="col-md-2">
-				<label for="product">Product</label> <select
-					class="form-control" name="product" id="product"
-					formControlName="pid">
-					<option value="">Select Product</option>
-					<option value="1">Oxygen</option>
+			<div class="col-md-4">
+				<label for="product" class="sr-only">Product</label> <select
+					class="form-control" #product="ngModel" id="product" name="product"
+					[(ngModel)]="supplierModel.pid" 
+					[ngClass]="{ 'is-invalid': supplierForm.submitted && name.invalid }" required>
+					<option value="" disabled>Select Product</option>
+					<option value="1" >Default</option>
+    				<option *ngFor="let product of products" [ngValue]="product.id">{{product.name}}</option>
 				</select>
+				<div *ngIf="supplierForm.submitted && product.invalid" class="invalid-feedback">
+                    <div *ngIf="product.errors?.required">Title is required</div>
+                </div>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row p-2">
 			<div class="col-md-2">
 				<button type="submit" class="btn btn-info">Add</button>
 			</div>
 			<div class="col-md-2 offset-md-8">
-				<button value="Search" class="btn btn-primary" (click)="find()">Search</button>
+				<button value="Search" class="btn btn-primary" (ngClick)="find()">Search</button>
 			</div>
 		</div>
 	</form>
+	<div class="m-5">
+		<div class="alert alert-danger" role="alert" *ngIf="errorMsg">{{errorMsg}}</div>
+		<div class="alert alert-success" role="alert" *ngIf="info">{{info}}</div>
+	</div>
 </div>
 
 <div class="container">
-	<div class="alert alert-danger" role="alert" *ngIf="errorMsg">{{errorMsg}}</div>
-	<div class="alert alert-success" role="alert" *ngIf="info">{{info}}</div>
-	<table class="table table-hover table-striped">
+	<table class="table table-hover table-striped" *ngIf="showTable">
 		<thead class="thead-dark">
 			<tr>
 				<th>#</th>
@@ -64,12 +87,16 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let s of supplier">
+			<tr *ngFor="let s of suppliers">
 				<td>{{s.id}}</td>
 				<td>{{s.name}}</td>
 				<td>{{s.address}}</td>
 				<td>{{s.contact_name}}</td>
 				<td>{{s.contact_phone}}</td>
+			</tr>
+			<tr class="alert alert-danger" role="alert"
+				*ngIf="suppliers.length==0">
+				<td colspan="5" class="text-center">No Records</td>
 			</tr>
 		</tbody>
 	</table>
