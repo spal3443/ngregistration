@@ -21,6 +21,10 @@ export class HospitalComponent implements OnInit {
         this.hospitals = [];
         this.errorMsg = "";
         this.info = "";
+       this.resetForm();
+        this.showTable = false;
+    }
+    resetForm(){
         this.hospitalModel = {
             id: '',
             name: '',
@@ -31,7 +35,6 @@ export class HospitalComponent implements OnInit {
             occupied_bed: 0,
             available_bed: 0
         };
-        this.showTable = false;
     }
     ngOnInit() {
         this.hospitals = [];
@@ -39,36 +42,16 @@ export class HospitalComponent implements OnInit {
     }
     onSubmit() {
             //form validation
-            this.hospitals.push(this.hospitalModel.value);
-            this.update(this.hospitals)
+            this.hospitals.push(this.hospitalModel);
+            this.update(this.hospitals);
+           // this.resetForm();
+            
         }
-        /*  display() {
-    
-                this.apiService.getHospitals().subscribe(( data ) => {
-    
-                    console.log( data );
-    
-                    if ( !data ) {
-    
-                        this.errorMsg = "Something went Wrong!!!";
-    
-                        setTimeout(() => { this.errorMsg = ""; }, 5000 )
-    
-                    } else {
-    
-         
-    
-                        this.hospitals = data;
-    
-                    }
-    
-                } );
-    
-            }*/
+        
     find() {
-        this.apiService.findHospitals(this.hospitalModel.value).subscribe((data) => {
+        this.apiService.findHospitals(this.hospitalModel).subscribe((data) => {
             console.log(data);
-            if(data.length != 0) {
+            if(!data.length) {
                 this.errorMsg = "Something went Wrong!!!";
                 setTimeout(() => {
                     this.errorMsg = "";

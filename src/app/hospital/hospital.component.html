@@ -5,8 +5,8 @@
 		<form #hospitalForm="ngForm" (ngSubmit)="hospitalForm.form.valid && onSubmit()" novalidate>
 			<div class="row">
 				<div class="col-md-4 offset-md-4">
-					<label class="sr-only" for="name">Name</label>
-					<input type="text" class="form-control" id="name" [(ngModel)]="hospitalModel.name" placeholder="Enter name" name="name" #name="ngModel" [ngClass]="{ 'is-invalid': name.dirty && name.invalid }" required />
+					<label class="sr-only" for="name">Hospital Name</label>
+					<input type="text" class="form-control" id="name" [(ngModel)]="hospitalModel.name" placeholder="Enter Hospital Name" name="name" #name="ngModel" [ngClass]="{ 'is-invalid': name.dirty && name.invalid }" required />
 					<div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
 						<div *ngIf="name.errors?.required">Name is required</div>
 					</div>
@@ -15,15 +15,15 @@
 			<hr class="mt-4" />
 			<div class="row">
 				<div class="col-md-6">
-					<label class="sr-only" for="contactName">Contact Name</label>
-					<input type="text" class="form-control" id="contact_name" #contact_name="ngModel" [(ngModel)]="hospitalModel.contact_name" placeholder="Enter contact name" name="contact_name" [ngClass]="{ 'is-invalid': contact_name.dirty && contact_name.invalid }" required />
+					<label class="sr-only" for="contactName">Hospital Contact Person Name</label>
+					<input type="text" class="form-control" id="contact_name" #contact_name="ngModel" [(ngModel)]="hospitalModel.contact_name" placeholder="Enter Hospital contact Person Name" name="contact_name" [ngClass]="{ 'is-invalid': contact_name.dirty && contact_name.invalid }" required />
 					<div *ngIf="contact_name.invalid && (contact_name.dirty || contact_name.touched)" class="invalid-feedback">
 						<div *ngIf="contact_name.errors?.required">Contact name is required</div>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<label class="sr-only" for="contactPhone">Contact Phone</label>
-					<input type="number" class="form-control" id="contact_phone" #contact_phone="ngModel" [(ngModel)]="hospitalModel.contact_phone" placeholder="Enter contact phone" name="contact_phone" [ngClass]="{ 'is-invalid': contact_phone.dirty && contact_phone.invalid }" required />
+					<input type="tel" class="form-control" id="contact_phone" #contact_phone="ngModel" [(ngModel)]="hospitalModel.contact_phone" placeholder="Enter contact Person phone No" name="contact_phone" pattern="[0-9]{10}" [ngClass]="{ 'is-invalid': contact_phone.dirty && contact_phone.invalid }" required />
 					<div *ngIf="contact_phone.invalid && (contact_phone.dirty || contact_phone.touched)" class="invalid-feedback">
 						<div *ngIf="contact_phone.errors?.required">Contact phone is required</div>
 					</div>
@@ -32,7 +32,7 @@
 			<div class="row">
 				<div class="col-md-8">
 					<label class="sr-only" for="address">Address</label>
-					<input type="text" class="form-control" id="address" [(ngModel)]="hospitalModel.address" placeholder="Enter address" name="address" #address="ngModel" [ngClass]="{ 'is-invalid': address.dirty && address.invalid }" required />
+					<input type="text" class="form-control" id="address" [(ngModel)]="hospitalModel.address" placeholder="Enter Hospital Address" name="address" #address="ngModel" [ngClass]="{ 'is-invalid': address.dirty && address.invalid }" required />
 					<div *ngIf="address.invalid && (address.dirty || address.touched)" class="invalid-feedback">
 						<div *ngIf="address.errors?.required">Address is required</div>
 					</div>
@@ -52,7 +52,7 @@
 					<input type="number" class="form-control" id="occupied_bed" (change)="updateAvailableBeds()" #occupied_bed="ngModel" [(ngModel)]="hospitalModel.occupied_bed" placeholder="How many beds are occupied?" name="occupied_bed" min="0" max="10000" [ngClass]="{ 'is-invalid': occupied_bed.invalid && occupied_bed.dirty}" required />
 					<div *ngIf="occupied_bed.invalid && (occupied_bed.touched || occupied_bed.dirty)" class="invalid-feedback">
 						<div *ngIf="occupied_bed.errors?.required">Please enter number of occupied beds</div>
-						<div *ngIf="occupied_bed.errors?.min">Occupied beds can't be less than 0</div>
+						<div *ngIf="occupied_bed.errors?.min">Occupied beds can't be greater than Total beds</div>
 					</div>
 				</div>
 				<div class="col-md-4">
@@ -65,7 +65,7 @@
 			</div>
 			<div class="row p-2">
 				<div class="col-md-2">
-					<button type="submit" class="btn btn-info" [disabled]="hospitalForm.invalid">Add</button>
+					<button type="submit" class="btn btn-info" [disabled]="hospitalForm.invalid">Register</button>
 				</div>
 				<div class="col-md-2 offset-md-8">
 					<button value="Search" class="btn btn-primary" (click)="find()">Search</button>

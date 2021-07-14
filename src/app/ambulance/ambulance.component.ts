@@ -1,46 +1,49 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { ApiService } from '../api.service';
+import {
+  Component, OnInit
+}
+from '@angular/core';
+import {
+  ApiService
+}
+from '../api.service';@
 
-@Component({
+Component({
   selector: 'app-ambulance',
   templateUrl: './ambulance.component.html',
   styleUrls: ['./ambulance.component.css']
 })
 export class AmbulanceComponent implements OnInit {
   public ambulance: any;
-  public ambulanceform: any;
+  public ambulanceModel: any;
   public errorMsg: string;
   public info: string;
-  constructor(private formBuilder: FormBuilder,private apiService: ApiService) { 
+  public showTable: boolean;
+  constructor(private apiService: ApiService) { 
     this.ambulance=[];
     this.errorMsg = "";
-	this.info="";
-    this.ambulanceform=this.formBuilder.group({
-      id:'',
+	  this.info="";
+    this.ambulanceModel = {
+      id: '',
       name: '',
       address: '',
-      contact_name:'',
-      contact_phone:'',
+      contact_name: '',
+      contact_phone: ''
       
-    });
+    };
+    this.showTable = false;
   }
 
   ngOnInit(){
+    this.ambulance = [];
+    this.showTable = false;
   }
 
   onSubmit() {
     // Process checkout data here
-    console.warn('Your order has been submitted', this.ambulanceform.value);
-    this.ambulance.push(this.ambulanceform.value);
+    console.log()
+    this.ambulance.push(this.ambulanceModel);
     this.update(this.ambulance)
-    this.ambulanceform.reset();
-
-
     // this.insert();
-   
-   //this.displayambulance();
-
   }    
 displayambulance(){
   this.apiService.getAmbulance().subscribe((data)=>{
@@ -60,14 +63,14 @@ find(){
   this.ambulance=[{id:1,name:"sandip",address:"kolaberia"}]
  this.ambulance=this.ambulance.filter((x: { name: any; })=>{
   // console.log(this.hospitalform.value.name)
-   return  this.ambulanceform.value.name===x.name;
+   return  this.ambulanceModel.value.name===x.name;
 
  })
 
 // this.hospitals=[{id:1,address:"kolaberia"}]
  this.ambulance=this.ambulance.filter((x: { address: any; })=>{
   // console.log(this.hospitalform.value.name)
-   return  this.ambulanceform.value.address===x.address;
+   return  this.ambulanceModel.value.address===x.address;
 
  })
 }

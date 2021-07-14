@@ -10,7 +10,7 @@ export class ApiService {
 
     constructor( private httpClient: HttpClient ) { }
 
-    public getHospitals(): Observable<any> {
+    /*public getHospitals(): Observable<any> {
         try {
             var httpurl = "http://localhost:7575/covidapp/getHospitalList"
             var HttpParams = {};
@@ -19,7 +19,7 @@ export class ApiService {
         catch{
             throw new Error( 'Error in update hospital method.' );
         }
-    }
+    }*/
 
     public updateHospitals( params: any ): Observable<any> {
         try {
@@ -35,12 +35,12 @@ export class ApiService {
     public findHospitals( params: any ): Observable<any> {
         try {
 
-            var httpurl = "http://localhost:8081/CovidCentralApp/findHospitals"
+            var httpurl = "http://localhost:7575/covidapp/findHospital"
             //var HttpParams={};
             return this.httpClient.post( httpurl, params );
         }
         catch{
-            throw new Error( 'Error in update hospital method.' );
+            throw new Error( 'Error in search hospital method.' );
         }
 
     }
