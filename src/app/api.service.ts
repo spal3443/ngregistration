@@ -35,7 +35,7 @@ export class ApiService {
     public findHospitals( params: any ): Observable<any> {
         try {
 
-            var httpurl = "http://localhost:8081/CovidCentralApp/findHospitals"
+            var httpurl = "http://localhost:7575/CovidCentralApp/findHospitals"
             //var HttpParams={};
             return this.httpClient.post( httpurl, params );
         }
